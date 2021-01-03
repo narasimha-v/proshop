@@ -1,5 +1,8 @@
 import React, { FunctionComponent } from 'react';
+import { Link } from 'react-router-dom';
 import { Card } from 'react-bootstrap';
+
+import { Rating } from '.';
 import { Product as ProductType } from '../types';
 
 interface ProductProps {
@@ -11,19 +14,20 @@ const Product: FunctionComponent<ProductProps> = ({
 }: ProductProps) => {
 	return (
 		<Card className='my-3 p-3 rounded'>
-			<a href={`/product/${product._id}`}>
+			<Link to={`/product/${product._id}`}>
 				<Card.Img src={product.image} variant='top' />
-			</a>
+			</Link>
 			<Card.Body>
-				<a href={`/product/${product._id}`}>
+				<Link to={`/product/${product._id}`}>
 					<Card.Title as='div'>
 						<strong>{product.name}</strong>
 					</Card.Title>
-				</a>
+				</Link>
 				<Card.Text as='div'>
-					<div className='my-3'>
-						{product.rating} from {product.numReviews} reviews
-					</div>
+					<Rating
+						value={product.rating}
+						text={`${product.numReviews} reviews`}
+					/>
 				</Card.Text>
 				<Card.Text as='h3'>${product.price}</Card.Text>
 			</Card.Body>
