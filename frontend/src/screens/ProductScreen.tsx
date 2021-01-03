@@ -1,9 +1,10 @@
-import React, { FunctionComponent } from 'react';
+import React, { FunctionComponent, useEffect, useState } from 'react';
 import { Link, RouteComponentProps } from 'react-router-dom';
 import { Row, Col, Image, ListGroup, Card, Button } from 'react-bootstrap';
+import axios from 'axios';
 
 import { Rating } from '../components';
-import products from '../products';
+import { Product as ProductType } from '../types';
 
 interface MatchParams {
 	id: string;
@@ -16,7 +17,16 @@ const ProductScreen: FunctionComponent<ProductScreenProps> = ({
 		params: { id }
 	}
 }: ProductScreenProps) => {
-	const product = products.find((p) => p._id === id);
+	const [product, setProduct] = useState<ProductType>();
+
+	useEffect(() => {
+		const fetchProduct = async () => {
+			const { data } = await axios.get(`/api/products/${id}`);
+			setProduct(data);
+		};
+		fetchProduct();
+	}, [id]);
+
 	if (!product) return null;
 
 	return (
@@ -74,6 +84,7 @@ const ProductScreen: FunctionComponent<ProductScreenProps> = ({
 					</Card>
 				</Col>
 			</Row>
+			)
 		</>
 	);
 };
