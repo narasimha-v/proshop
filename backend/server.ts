@@ -1,14 +1,17 @@
 import express from 'express';
 import morgan from 'morgan';
 import dotenv from 'dotenv';
+import 'colorts/lib/string';
 
 import products from './data/products';
+import { connectDB } from './config';
 
 dotenv.config();
 if (process.env.NODE_ENV === 'development') {
 	morgan('dev');
 }
 
+connectDB();
 const app = express();
 
 app.use(express.urlencoded({ extended: true }));
@@ -31,6 +34,7 @@ app.get('/api/products/:id', (req, res) => {
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
 	console.log(
-		`Server is running in ${process.env.NODE_ENV} mode on port ${PORT}`
+		`Server is running in ${process.env.NODE_ENV} mode on port ${PORT}`.green
+			.bold
 	);
 });
