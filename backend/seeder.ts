@@ -1,11 +1,10 @@
-import mongoose from 'mongoose';
 import dotenv from 'dotenv';
 import 'colorts/lib/string';
 
 import { users, products } from './data';
 import { User, Order, Product } from './models';
 import { connectDB } from './config';
-import { UserDocument } from './types';
+import { UserDocument, Review } from './types';
 
 dotenv.config();
 connectDB();
@@ -19,7 +18,8 @@ const importData = async () => {
 		const createdUsers = await User.insertMany(users);
 		const adminUser: UserDocument = createdUsers[0]._id;
 		const sampleProducts = products.map((p) => {
-			return { ...p, user: adminUser };
+			let reviews: Review[] = [];
+			return { ...p, user: adminUser, reviews };
 		});
 		await Product.insertMany(sampleProducts);
 		console.log(`Data Imported`.green.inverse);

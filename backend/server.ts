@@ -3,8 +3,8 @@ import morgan from 'morgan';
 import dotenv from 'dotenv';
 import 'colorts/lib/string';
 
-import products from './data/products';
 import { connectDB } from './config';
+import { productRoutes } from './routes';
 
 dotenv.config();
 if (process.env.NODE_ENV === 'development') {
@@ -21,15 +21,7 @@ app.get('/', (req, res) => {
 	res.send(`Hit Home Route`);
 });
 
-app.get('/api/products', (req, res) => {
-	res.json(products);
-});
-
-app.get('/api/products/:id', (req, res) => {
-	const { id } = req.params as { id: string };
-	const product = products.find((p) => p._id === id);
-	res.json(product);
-});
+app.use('/api/products', productRoutes);
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {

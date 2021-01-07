@@ -13,7 +13,7 @@ export interface Product {
 	numReviews: number;
 }
 
-interface Review {
+export interface Review {
 	name: string;
 	rating: string;
 	comment: string;
@@ -21,7 +21,7 @@ interface Review {
 
 interface ProductForDB extends Product {
 	user: UserDocument;
-	reviews?: Review[];
+	reviews: Review[];
 }
 
 export interface ProductDocument extends ProductForDB, Document {}
