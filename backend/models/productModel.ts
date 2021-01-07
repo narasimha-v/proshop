@@ -1,4 +1,5 @@
 import { Schema, model } from 'mongoose';
+import { ProductDocument } from '../types';
 
 const reviewSchema = new Schema(
 	{
@@ -72,4 +73,4 @@ const productSchema = new Schema(
 	}
 );
 
-export const Product = model('Product', productSchema);
+export const Product = model<ProductDocument>('Product', productSchema);
