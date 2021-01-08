@@ -84,7 +84,6 @@ const ProductScreen: FunctionComponent<ProductScreenProps> = ({
 					</Card>
 				</Col>
 			</Row>
-			)
 		</>
 	);
 };
