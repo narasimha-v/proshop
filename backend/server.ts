@@ -5,6 +5,7 @@ import 'colorts/lib/string';
 
 import { connectDB } from './config';
 import { productRoutes } from './routes';
+import { notFound, errorHandler } from './middleware';
 
 dotenv.config();
 if (process.env.NODE_ENV === 'development') {
@@ -17,11 +18,10 @@ const app = express();
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
-app.get('/', (req, res) => {
-	res.send(`Hit Home Route`);
-});
-
+app.get('/', (req, res) => res.json({ message: 'api is responding' }));
 app.use('/api/products', productRoutes);
+app.use(notFound);
+app.use(errorHandler);
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
