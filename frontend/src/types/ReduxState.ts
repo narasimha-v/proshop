@@ -1,5 +1,6 @@
-import { ProductState } from './Product';
+import { ProductListState, ProductDetailsState } from '.';
 
 export interface ReduxState {
-	productList: ProductState;
+	productList: ProductListState;
+	productDetails: ProductDetailsState;
 }

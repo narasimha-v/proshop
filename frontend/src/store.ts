@@ -3,7 +3,7 @@ import { createStore, combineReducers, applyMiddleware, Action } from 'redux';
 import { composeWithDevTools } from 'redux-devtools-extension';
 
 import { ReduxState } from './types';
-import { productListReducer } from './reducers';
+import { productListReducer, productDetailsReducer } from './reducers';
 
 export type AppDispatch = ThunkDispatch<ReduxState, unknown, Action<string>>;
 export type AppThunk = ThunkAction<
@@ -14,7 +14,8 @@ export type AppThunk = ThunkAction<
 >;
 
 const reducer = combineReducers<ReduxState>({
-	productList: productListReducer
+	productList: productListReducer,
+	productDetails: productDetailsReducer
 });
 
 const initialState = {};
