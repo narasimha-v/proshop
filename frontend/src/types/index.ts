@@ -1,3 +1,2 @@
-import { Product } from './Product';
-
-export type { Product };
+export * from './Product';
+export * from './ReduxState';
