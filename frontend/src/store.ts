@@ -3,7 +3,11 @@ import { createStore, combineReducers, applyMiddleware, Action } from 'redux';
 import { composeWithDevTools } from 'redux-devtools-extension';
 
 import { ReduxState } from './types';
-import { productListReducer, productDetailsReducer } from './reducers';
+import {
+	productListReducer,
+	productDetailsReducer,
+	cartReducer
+} from './reducers';
 
 export type AppDispatch = ThunkDispatch<ReduxState, unknown, Action<string>>;
 export type AppThunk = ThunkAction<
@@ -15,10 +19,16 @@ export type AppThunk = ThunkAction<
 
 const reducer = combineReducers<ReduxState>({
 	productList: productListReducer,
-	productDetails: productDetailsReducer
+	productDetails: productDetailsReducer,
+	cart: cartReducer
 });
 
-const initialState = {};
+const cartItemsFromStorage = localStorage.getItem('cartItems');
+const cartItems = cartItemsFromStorage ? JSON.parse(cartItemsFromStorage) : [];
+
+const initialState = {
+	cart: { cartItems }
+};
 const middleware = [thunk];
 
 const store = createStore(

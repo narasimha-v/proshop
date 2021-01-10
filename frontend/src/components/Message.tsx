@@ -3,7 +3,7 @@ import { Alert } from 'react-bootstrap';
 
 interface MessageProps {
 	children: React.ReactNode;
-	variant: string;
+	variant?: string;
 }
 
 const Message: React.FunctionComponent<MessageProps> = ({
