@@ -1,4 +1,6 @@
-import { Schema, model } from 'mongoose';
+import { Schema, model, Document } from 'mongoose';
+import bcrypt from 'bcrypt';
+
 import { UserDocument } from '../types';
 
 const userSchema = new Schema(
@@ -26,5 +28,12 @@ const userSchema = new Schema(
 		timestamps: true
 	}
 );
+
+userSchema.methods.macthPassword = async function (
+	this: UserDocument,
+	enteredPassword: string
+) {
+	return await bcrypt.compare(enteredPassword, this.password);
+};
 
 export const User = model<UserDocument>('User', userSchema);
