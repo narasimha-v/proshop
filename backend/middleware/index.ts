@@ -1,3 +1,2 @@
-import { notFound, errorHandler } from './errorMiddleware';
-
-export { notFound, errorHandler };
+export * from './errorMiddleware';
+export * from './authMiddleware';
