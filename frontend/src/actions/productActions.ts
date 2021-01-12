@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { errorHandler } from '.';
 
 import { AppThunk } from '../store';
 import {
@@ -18,7 +19,7 @@ export const listProducts = (): AppThunk => async (dispatch) => {
 	} catch (error) {
 		dispatch({
 			type: ProductListActionTypes.PRODUCT_LIST_FAILURE,
-			payload: errorMessage(error)
+			payload: errorHandler(error)
 		});
 	}
 };
@@ -36,13 +37,7 @@ export const listProductDetails = (id: string): AppThunk => async (
 	} catch (error) {
 		dispatch({
 			type: ProductDetailsActionTypes.PRODUCT_DETAILS_FAILURE,
-			payload: errorMessage(error)
+			payload: errorHandler(error)
 		});
 	}
-};
-
-const errorMessage = (error: any) => {
-	return error.response && error.response.data.message
-		? error.response.data.message
-		: error.message;
 };
