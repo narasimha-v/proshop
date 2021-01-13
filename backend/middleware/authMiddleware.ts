@@ -17,7 +17,14 @@ export const protect = asyncHandler(
 			try {
 				token = auth.split(' ')[1];
 				const decoded = jwt.verify(token, process.env.JWT_SECRET!) as Decoded;
-				req.user = await User.findById(decoded.id).select('-password');
+				const user = await User.findById(decoded.id).select('-password');
+				if (!user) throw new Error('User Not found');
+				req.user = {
+					_id: user._id,
+					name: user.name,
+					email: user.email,
+					isAdmin: user.isAdmin
+				};
 				next();
 			} catch (error) {
 				console.error(error);
