@@ -2,7 +2,10 @@ import {
 	ProductListState,
 	ProductDetailsState,
 	CartState,
-	UserLoginState
+	UserLoginState,
+	UserRegisterState,
+	UserDetailsState,
+	UserUpdateProfileState
 } from '.';
 
 export interface ReduxState {
@@ -10,4 +13,7 @@ export interface ReduxState {
 	productDetails: ProductDetailsState;
 	cart: CartState;
 	userLogin: UserLoginState;
+	userRegister: UserRegisterState;
+	userDetails: UserDetailsState;
+	userUpdateProfile: UserUpdateProfileState;
 }

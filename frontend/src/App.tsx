@@ -3,7 +3,14 @@ import { BrowserRouter as Router, Route } from 'react-router-dom';
 import { Container } from 'react-bootstrap';
 
 import { Header, Footer } from './components';
-import { HomeScreen, ProductScreen, CartScreen, LoginScreen } from './screens';
+import {
+	HomeScreen,
+	ProductScreen,
+	CartScreen,
+	LoginScreen,
+	RegisterScreen,
+	ProfileScreen
+} from './screens';
 
 const App = () => {
 	return (
@@ -12,6 +19,8 @@ const App = () => {
 			<main className='py-3'>
 				<Container>
 					<Route path='/login' component={LoginScreen} />
+					<Route path='/register' component={RegisterScreen} />
+					<Route path='/profile' component={ProfileScreen} />
 					<Route path='/product/:id' component={ProductScreen} />
 					<Route path='/cart/:id?' component={CartScreen} />
 					<Route exact path='/' component={HomeScreen} />
