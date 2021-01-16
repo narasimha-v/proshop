@@ -10,7 +10,8 @@ import {
 	userLoginReducer,
 	userRegisterReducer,
 	userDetailsReducer,
-	userUpdateProfileReducer
+	userUpdateProfileReducer,
+	orderCreateReducer
 } from './reducers';
 
 export type AppDispatch = ThunkDispatch<ReduxState, unknown, Action<string>>;
@@ -28,7 +29,8 @@ const reducer = combineReducers<ReduxState>({
 	userLogin: userLoginReducer,
 	userRegister: userRegisterReducer,
 	userDetails: userDetailsReducer,
-	userUpdateProfile: userUpdateProfileReducer
+	userUpdateProfile: userUpdateProfileReducer,
+	orderCreate: orderCreateReducer
 });
 
 const cartItemsFromStorage = localStorage.getItem('cartItems');
@@ -39,8 +41,13 @@ const userInfo = userInfoFromStorage
 	? JSON.parse(userInfoFromStorage)
 	: undefined;
 
+const shippingAddressFromStorage = localStorage.getItem('shippingAddress');
+const shippingAddress = shippingAddressFromStorage
+	? JSON.parse(shippingAddressFromStorage)
+	: undefined;
+
 const initialState = {
-	cart: { cartItems },
+	cart: { cartItems, shippingAddress },
 	userLogin: { userInfo }
 };
 const middleware = [thunk];

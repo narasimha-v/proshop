@@ -4,7 +4,7 @@ import dotenv from 'dotenv';
 import 'colorts/lib/string';
 
 import { connectDB } from './config';
-import { productRoutes, userRoutes } from './routes';
+import { productRoutes, userRoutes, orderRoutes } from './routes';
 import { notFound, errorHandler } from './middleware';
 
 dotenv.config();
@@ -21,6 +21,7 @@ app.use(express.json());
 app.get('/', (req, res) => res.json({ message: 'api is responding' }));
 app.use('/api/products', productRoutes);
 app.use('/api/users', userRoutes);
+app.use('/api/orders', orderRoutes);
 app.use(notFound);
 app.use(errorHandler);
 
