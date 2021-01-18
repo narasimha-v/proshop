@@ -1428,6 +1428,14 @@
   resolved "https://registry.yarnpkg.com/@popperjs/core/-/core-2.6.0.tgz#f022195afdfc942e088ee2101285a1d31c7d727f"
   integrity sha512-cPqjjzuFWNK3BSKLm0abspP0sp/IGOli4p5I5fKFAzdS8fvjdOwDCfZqAaIiXd9lPkOWi3SUUfZof3hEb7J/uw==
 
+"@repeatgg/react-paypal-button-v2@^2.7.0":
+  version "2.7.0"
+  resolved "https://registry.yarnpkg.com/@repeatgg/react-paypal-button-v2/-/react-paypal-button-v2-2.7.0.tgz#b7869f92888c98b7ead776574fcb14eddcad80b9"
+  integrity sha512-F2sYwxiOMW2rwrrBDOF0SeJ4uJiOHyAjriskzwFig5QCaVWVwL0byB8fZtdWWtdYTud0E5wRwdknmd+qLfhsNQ==
+  dependencies:
+    prop-types "^15.7.2"
+    rimraf "^3.0.0"
+
 "@restart/context@^2.1.4":
   version "2.1.4"
   resolved "https://registry.yarnpkg.com/@restart/context/-/context-2.1.4.tgz#a99d87c299a34c28bd85bb489cb07bfd23149c02"

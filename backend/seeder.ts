@@ -19,7 +19,7 @@ const importData = async () => {
 		const adminUser: UserDocument = createdUsers[0]._id;
 		const sampleProducts = products.map((p) => {
 			let reviews: Review[] = [];
-			return { ...p, user: adminUser, reviews };
+			return { ...p, user: adminUser.id, reviews };
 		});
 		await Product.insertMany(sampleProducts);
 		console.log(`Data Imported`.green.inverse);

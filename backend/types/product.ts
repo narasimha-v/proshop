@@ -20,7 +20,7 @@ export interface Review {
 }
 
 interface ProductForDB extends Product {
-	user: UserDocument;
+	user: string;
 	reviews: Review[];
 }
 

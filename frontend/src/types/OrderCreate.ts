@@ -1,23 +1,13 @@
-import { Cart, ShippingAddress } from '.';
+import { Order } from './Order';
 
-export interface CreateOrder {
-	orderItems: Cart[];
-	shippingAddress: ShippingAddress;
-	paymentMethod: string;
-	itemsPrice: number;
-	taxPrice: number;
-	shippingPrice: number;
-	totalPrice: number;
-}
-
-export interface CreateOrderWithUser extends CreateOrder {
+export interface OrderCreate extends Order {
 	_id: string;
 	user: string;
 }
 
 export interface OrderCreateState {
 	loading: boolean;
-	order?: CreateOrderWithUser;
+	order?: OrderCreate;
 	success?: boolean;
 	error?: any;
 }
@@ -34,7 +24,7 @@ export interface OrderCreateRequestAction {
 
 export interface OrderCreateSuccessAction {
 	type: OrderCreateActionTypes.ODRER_CREATE_SUCCESS;
-	payload: CreateOrderWithUser;
+	payload: OrderCreate;
 }
 
 export interface OrderCreateFailureAction {

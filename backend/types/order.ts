@@ -1,5 +1,5 @@
 import { Model, Document } from 'mongoose';
-import { ProductDocument, UserDocument } from '.';
+import { ProductDocument } from '.';
 
 export interface OrderItems {
 	name: string;
@@ -24,7 +24,7 @@ export interface PaymentResult {
 }
 
 export interface Order {
-	user: UserDocument;
+	user: string;
 	orderItems: OrderItems[];
 	shippingAddress: ShippingAddress;
 	paymentMethod: string;
@@ -33,9 +33,9 @@ export interface Order {
 	shippingPrice: number;
 	totalPrice: number;
 	isPaid: boolean;
-	paidAt: Date;
+	paidAt: number;
 	isDelivered: boolean;
-	deliveredAt: Date;
+	deliveredAt: number;
 }
 
 export interface OrderDocument extends Order, Document {}

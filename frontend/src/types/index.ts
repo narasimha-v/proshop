@@ -1,4 +1,5 @@
 export * from './Cart';
+export * from './Order';
 export * from './Product';
 export * from './ProductList';
 export * from './ProductDetails';
@@ -8,4 +9,6 @@ export * from './UserRegister';
 export * from './UserDetails';
 export * from './UserUpdateProfile';
 export * from './OrderCreate';
+export * from './OrderDetails';
+export * from './OrderPay';
 export * from './ReduxState';
