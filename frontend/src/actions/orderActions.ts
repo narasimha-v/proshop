@@ -8,6 +8,8 @@ import {
 	OrderCreateActionTypes,
 	OrderDetails,
 	OrderDetailsActionTypes,
+	OrderListMy,
+	OrderListMyActionTypes,
 	OrderPayActionTypes
 } from '../types';
 
@@ -94,6 +96,31 @@ export const payOrder = (
 	} catch (error) {
 		dispatch({
 			type: OrderPayActionTypes.ODRER_PAY_FAILURE,
+			payload: errorHandler(error)
+		});
+	}
+};
+
+export const listMyOrders = (): AppThunk => async (dispatch, getState) => {
+	try {
+		dispatch({ type: OrderListMyActionTypes.ODRER_LIST_MY_REQUEST });
+		const { userInfo } = getState().userLogin;
+		const config = {
+			headers: {
+				Authorization: `Bearer ${userInfo?.token}`
+			}
+		};
+		const { data } = await axios.get<OrderListMy[]>(
+			`/api/orders/myorders`,
+			config
+		);
+		dispatch({
+			type: OrderListMyActionTypes.ODRER_LIST_MY_SUCCESS,
+			payload: data
+		});
+	} catch (error) {
+		dispatch({
+			type: OrderListMyActionTypes.ODRER_LIST_MY_FAILURE,
 			payload: errorHandler(error)
 		});
 	}

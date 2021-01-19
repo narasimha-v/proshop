@@ -7,7 +7,10 @@ import {
 	OrderDetailsState,
 	OrderPayActionTypes,
 	OrderPayAction,
-	OrderPayState
+	OrderPayState,
+	OrderListMyState,
+	OrderListMyAction,
+	OrderListMyActionTypes
 } from '../types';
 
 const orderCreateReducerInitialState: OrderCreateState = {
@@ -67,6 +70,27 @@ export const orderPayReducer = (
 			return { loading: false, error: action.payload };
 		case OrderPayActionTypes.ORDER_PAY_RESET:
 			return {};
+		default:
+			return state;
+	}
+};
+
+const orderListMyReducerInitialState: OrderListMyState = {
+	orders: [],
+	loading: false
+};
+
+export const orderListMyReducer = (
+	state = orderListMyReducerInitialState,
+	action: OrderListMyAction
+) => {
+	switch (action.type) {
+		case OrderListMyActionTypes.ODRER_LIST_MY_REQUEST:
+			return { loading: true, orders: state.orders };
+		case OrderListMyActionTypes.ODRER_LIST_MY_SUCCESS:
+			return { loading: false, orders: action.payload };
+		case OrderListMyActionTypes.ODRER_LIST_MY_FAILURE:
+			return { loading: false, error: action.payload, orders: state.orders };
 		default:
 			return state;
 	}

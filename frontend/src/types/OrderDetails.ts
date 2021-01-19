@@ -16,8 +16,8 @@ export interface OrderDetails extends Order {
 	};
 	isPaid: boolean;
 	isDelivered: boolean;
-	paidAt?: number;
-	deliveredAt?: number;
+	paidAt?: string;
+	deliveredAt?: string;
 	paymentResult?: PaymentResult;
 }
 

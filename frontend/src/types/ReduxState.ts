@@ -8,7 +8,8 @@ import {
 	UserUpdateProfileState,
 	OrderCreateState,
 	OrderDetailsState,
-	OrderPayState
+	OrderPayState,
+	OrderListMyState
 } from '.';
 
 export interface ReduxState {
@@ -22,4 +23,5 @@ export interface ReduxState {
 	orderCreate: OrderCreateState;
 	orderDetails: OrderDetailsState;
 	orderPay: OrderPayState;
+	orderListMy: OrderListMyState;
 }

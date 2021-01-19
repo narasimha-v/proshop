@@ -29,13 +29,14 @@ export interface Order {
 	shippingAddress: ShippingAddress;
 	paymentMethod: string;
 	paymentResult: PaymentResult;
+	itemsPrice: number;
 	taxPrice: number;
 	shippingPrice: number;
 	totalPrice: number;
 	isPaid: boolean;
-	paidAt: number;
+	paidAt: string;
 	isDelivered: boolean;
-	deliveredAt: number;
+	deliveredAt: string;
 }
 
 export interface OrderDocument extends Order, Document {}
