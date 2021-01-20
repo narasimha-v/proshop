@@ -88,6 +88,8 @@ export const userDetailsReducer = (
 				loading: userDetailsReducerInitialState.loading,
 				error: action.payload
 			};
+		case UserDetailsActionTypes.USER_DETAILS_RESET:
+			return {};
 		default:
 			return state;
 	}

@@ -9,7 +9,8 @@ export interface UserDetailsState {
 export enum UserDetailsActionTypes {
 	USER_DETAILS_REQUEST = 'USER_DETAILS_REQUEST',
 	USER_DETAILS_SUCCESS = 'USER_DETAILS_SUCCESS',
-	USER_DETAILS_FAILURE = 'USER_DETAILS_FAILURE'
+	USER_DETAILS_FAILURE = 'USER_DETAILS_FAILURE',
+	USER_DETAILS_RESET = 'USER_DETAILS_RESET'
 }
 
 export interface UserDetailsRequestAction {
@@ -26,7 +27,13 @@ export interface UserDetailsFailureAction {
 	payload: any;
 }
 
+export interface UserDetailsResetAction {
+	type: UserDetailsActionTypes.USER_DETAILS_RESET;
+	payload: any;
+}
+
 export type UserDetailsAction =
 	| UserDetailsRequestAction
 	| UserDetailsSuccessAction
-	| UserDetailsFailureAction;
+	| UserDetailsFailureAction
+	| UserDetailsResetAction;

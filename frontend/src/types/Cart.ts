@@ -24,7 +24,8 @@ export enum CartActionTypes {
 	CART_ADD_ITEM = 'CART_ADD_ITEM',
 	CART_REMOVE_ITEM = 'CART_REMOVE_ITEM',
 	CART_SAVE_SHIPPING_ADDRESS = 'CART_SAVE_SHIPPING_ADDRESS',
-	CART_SAVE_PAYMENT_METHOD = 'CART_SAVE_PAYMENT_METHOD'
+	CART_SAVE_PAYMENT_METHOD = 'CART_SAVE_PAYMENT_METHOD',
+	CART_ITEMS_RESET = 'CART_ITEMS_RESET'
 }
 
 export interface CartAddItemAction {
@@ -35,6 +36,10 @@ export interface CartAddItemAction {
 export interface CartRemoveItemAction {
 	type: CartActionTypes.CART_REMOVE_ITEM;
 	payload: string;
+}
+
+export interface CartItemsResetAction {
+	type: CartActionTypes.CART_ITEMS_RESET;
 }
 
 export interface CartSaveShippingAddressAction {
@@ -51,4 +56,5 @@ export type CartAction =
 	| CartAddItemAction
 	| CartRemoveItemAction
 	| CartSaveShippingAddressAction
-	| CartSavePaymentMethodAction;
+	| CartSavePaymentMethodAction
+	| CartItemsResetAction;

@@ -34,9 +34,9 @@ export interface Order {
 	shippingPrice: number;
 	totalPrice: number;
 	isPaid: boolean;
-	paidAt: string;
+	paidAt: number;
 	isDelivered: boolean;
-	deliveredAt: string;
+	deliveredAt: number;
 }
 
 export interface OrderDocument extends Order, Document {}

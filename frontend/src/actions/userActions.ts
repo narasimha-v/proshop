@@ -9,7 +9,8 @@ import {
 	UserDetailsActionTypes,
 	User,
 	UserUpdateProfileActionTypes,
-	PasswordUser
+	PasswordUser,
+	OrderListMyActionTypes
 } from '../types';
 
 export const login = (email: string, password: string): AppThunk => async (
@@ -37,6 +38,8 @@ export const login = (email: string, password: string): AppThunk => async (
 
 export const logout = (): AppThunk => async (dispatch) => {
 	dispatch({ type: UserLoginActionTypes.USER_LOGOUT });
+	dispatch({ type: OrderListMyActionTypes.ODRER_LIST_MY_RESET });
+	dispatch({ type: UserDetailsActionTypes.USER_DETAILS_RESET });
 	localStorage.removeItem('userInfo');
 };
 

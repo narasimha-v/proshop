@@ -3,6 +3,7 @@ import axios from 'axios';
 import { errorHandler } from '.';
 import { AppThunk } from '../store';
 import {
+	CartActionTypes,
 	Order,
 	OrderCreate,
 	OrderCreateActionTypes,
@@ -34,6 +35,10 @@ export const createOrder = (order: Order): AppThunk => async (
 		dispatch({
 			type: OrderCreateActionTypes.ODRER_CREATE_SUCCESS,
 			payload: data
+		});
+		localStorage.removeItem('cartItems');
+		dispatch({
+			type: CartActionTypes.CART_ITEMS_RESET
 		});
 	} catch (error) {
 		dispatch({
