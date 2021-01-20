@@ -10,7 +10,10 @@ import {
 	UserDetailsActionTypes,
 	UserUpdateProfileState,
 	UserUpdateProfileAction,
-	UserUpdateProfileActionTypes
+	UserUpdateProfileActionTypes,
+	UserListState,
+	UserListAction,
+	UserListActionTypes
 } from '../types';
 
 const userLoginReducerInitialState: UserLoginState = {
@@ -119,6 +122,39 @@ export const userUpdateProfileReducer = (
 			};
 		case UserUpdateProfileActionTypes.USER_UPDATE_PROFILE_RESET:
 			return {};
+		default:
+			return state;
+	}
+};
+
+const userListReducerInitialState: UserListState = {
+	loading: false,
+	users: []
+};
+
+export const userListReducer = (
+	state: UserListState = userListReducerInitialState,
+	action: UserListAction
+) => {
+	switch (action.type) {
+		case UserListActionTypes.USER_LIST_REQUEST:
+			return { loading: true, users: [] };
+		case UserListActionTypes.USER_LIST_SUCCESS:
+			return {
+				loading: userListReducerInitialState.loading,
+				users: action.payload
+			};
+		case UserListActionTypes.USER_LIST_FAILURE:
+			return {
+				loading: userListReducerInitialState.loading,
+				error: action.payload,
+				users: state.users
+			};
+		case UserListActionTypes.USER_LIST_RESET:
+			return {
+				loading: userListReducerInitialState.loading,
+				users: []
+			};
 		default:
 			return state;
 	}

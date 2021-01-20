@@ -2,15 +2,17 @@ import React from 'react';
 import { LinkContainer } from 'react-router-bootstrap';
 import { Container, Nav, Navbar, NavDropdown } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
+import { useHistory } from 'react-router-dom';
 
 import { ReduxState } from '../types';
 import { logout } from '../actions';
 import { AppDispatch } from '../store';
 
 const Header = () => {
+	const history = useHistory();
 	const dispatch = useDispatch<AppDispatch>();
 	const { userInfo } = useSelector((state: ReduxState) => state.userLogin);
-	const logoutHandler = () => dispatch(logout());
+	const logoutHandler = () => dispatch(logout(() => history.push('/')));
 
 	return (
 		<header>
@@ -42,6 +44,19 @@ const Header = () => {
 										<i className='fas fa-user'></i> Sign In
 									</Nav.Link>
 								</LinkContainer>
+							)}
+							{userInfo && userInfo.isAdmin && (
+								<NavDropdown title='Admin' id='adminmenu'>
+									<LinkContainer to='/admin/userlist'>
+										<NavDropdown.Item>Users</NavDropdown.Item>
+									</LinkContainer>
+									<LinkContainer to='/admin/productlist'>
+										<NavDropdown.Item>Products</NavDropdown.Item>
+									</LinkContainer>
+									<LinkContainer to='/admin/orderlist'>
+										<NavDropdown.Item>Orders</NavDropdown.Item>
+									</LinkContainer>
+								</NavDropdown>
 							)}
 						</Nav>
 					</Navbar.Collapse>

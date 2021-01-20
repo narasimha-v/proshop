@@ -12,6 +12,7 @@ import {
 	PasswordUser,
 	OrderListMyActionTypes
 } from '../types';
+import { UserListActionTypes } from '../types/UserList';
 
 export const login = (email: string, password: string): AppThunk => async (
 	dispatch
@@ -36,11 +37,13 @@ export const login = (email: string, password: string): AppThunk => async (
 	}
 };
 
-export const logout = (): AppThunk => async (dispatch) => {
+export const logout = (callback: () => void): AppThunk => async (dispatch) => {
 	dispatch({ type: UserLoginActionTypes.USER_LOGOUT });
 	dispatch({ type: OrderListMyActionTypes.ODRER_LIST_MY_RESET });
 	dispatch({ type: UserDetailsActionTypes.USER_DETAILS_RESET });
+	dispatch({ type: UserListActionTypes.USER_LIST_RESET });
 	localStorage.removeItem('userInfo');
+	callback();
 };
 
 export const register = (
@@ -133,6 +136,29 @@ export const updateUserProfile = (user: PasswordUser): AppThunk => async (
 	} catch (error) {
 		dispatch({
 			type: UserUpdateProfileActionTypes.USER_UPDATE_PROFILE_FAILURE,
+			payload: errorHandler(error)
+		});
+	}
+};
+
+export const listUsers = (): AppThunk => async (dispatch, getState) => {
+	try {
+		dispatch({ type: UserListActionTypes.USER_LIST_REQUEST });
+		const { userInfo } = getState().userLogin;
+		const config = {
+			headers: {
+				'Content-Type': 'Application/json',
+				Authorization: `Bearer ${userInfo?.token}`
+			}
+		};
+		const { data } = await axios.get<User[]>(`/api/users/`, config);
+		dispatch({
+			type: UserListActionTypes.USER_LIST_SUCCESS,
+			payload: data
+		});
+	} catch (error) {
+		dispatch({
+			type: UserListActionTypes.USER_LIST_FAILURE,
 			payload: errorHandler(error)
 		});
 	}

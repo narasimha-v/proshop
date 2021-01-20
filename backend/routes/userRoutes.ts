@@ -3,13 +3,14 @@ import {
 	authUser,
 	getUserProfile,
 	registerUser,
-	updateUserProfile
+	updateUserProfile,
+	getUsers
 } from '../controllers';
-import { protect } from '../middleware';
+import { isAdmin, protect } from '../middleware';
 
 const router = Router();
 
-router.route('/').post(registerUser);
+router.route('/').post(registerUser).get(protect, isAdmin, getUsers);
 router.route('/login').post(authUser);
 router
 	.route('/profile')
