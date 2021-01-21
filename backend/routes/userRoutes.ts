@@ -4,17 +4,25 @@ import {
 	getUserProfile,
 	registerUser,
 	updateUserProfile,
-	getUsers
+	getUsers,
+	deleteUser,
+	getUserbyId,
+	updateUser
 } from '../controllers';
 import { isAdmin, protect } from '../middleware';
 
 const router = Router();
 
-router.route('/').post(registerUser).get(protect, isAdmin, getUsers);
+router
+	.route('/:id')
+	.put(protect, isAdmin, updateUser)
+	.delete(protect, isAdmin, deleteUser)
+	.get(protect, isAdmin, getUserbyId);
 router.route('/login').post(authUser);
 router
 	.route('/profile')
 	.get(protect, getUserProfile)
 	.put(protect, updateUserProfile);
+router.route('/').post(registerUser).get(protect, isAdmin, getUsers);
 
 export default router;

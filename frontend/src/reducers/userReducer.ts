@@ -13,7 +13,13 @@ import {
 	UserUpdateProfileActionTypes,
 	UserListState,
 	UserListAction,
-	UserListActionTypes
+	UserListActionTypes,
+	UserDeleteState,
+	UserDeleteAction,
+	UserDeleteActionTypes,
+	UserUpdateState,
+	UserUpdateAction,
+	UserUpdateActionTypes
 } from '../types';
 
 const userLoginReducerInitialState: UserLoginState = {
@@ -155,6 +161,60 @@ export const userListReducer = (
 				loading: userListReducerInitialState.loading,
 				users: []
 			};
+		default:
+			return state;
+	}
+};
+
+const userDetleteReducerInitialState: UserDeleteState = {
+	loading: false
+};
+
+export const userDeleteReducer = (
+	state: UserDeleteState = userDetleteReducerInitialState,
+	action: UserDeleteAction
+) => {
+	switch (action.type) {
+		case UserDeleteActionTypes.USER_DELETE_REQUEST:
+			return { loading: true };
+		case UserDeleteActionTypes.USER_DELETE_SUCCESS:
+			return {
+				loading: userDetleteReducerInitialState.loading,
+				success: true
+			};
+		case UserDeleteActionTypes.USER_DELETE_FAILURE:
+			return {
+				loading: userDetleteReducerInitialState.loading,
+				error: action.payload
+			};
+		default:
+			return state;
+	}
+};
+
+const userUpdateReducerInitialState: UserUpdateState = {
+	loading: false
+};
+
+export const userUpdateReducer = (
+	state: UserUpdateState = userUpdateReducerInitialState,
+	action: UserUpdateAction
+) => {
+	switch (action.type) {
+		case UserUpdateActionTypes.USER_UPDATE_REQUEST:
+			return { loading: true };
+		case UserUpdateActionTypes.USER_UPDATE_SUCCESS:
+			return {
+				loading: userUpdateReducerInitialState.loading,
+				success: true
+			};
+		case UserUpdateActionTypes.USER_UPDATE_FAILURE:
+			return {
+				loading: userUpdateReducerInitialState.loading,
+				error: action.payload
+			};
+		case UserUpdateActionTypes.USER_UPDATE_RESET:
+			return {};
 		default:
 			return state;
 	}

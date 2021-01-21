@@ -7,11 +7,13 @@ import {
 	UserDetailsState,
 	UserListState,
 	UserUpdateProfileState,
+	UserDeleteState,
 	OrderCreateState,
 	OrderDetailsState,
 	OrderPayState,
 	OrderListMyState
 } from '.';
+import { UserUpdateState } from './UserUpdate';
 
 export interface ReduxState {
 	productList: ProductListState;
@@ -26,4 +28,6 @@ export interface ReduxState {
 	orderPay: OrderPayState;
 	orderListMy: OrderListMyState;
 	userList: UserListState;
+	userDelete: UserDeleteState;
+	userUpdate: UserUpdateState;
 }

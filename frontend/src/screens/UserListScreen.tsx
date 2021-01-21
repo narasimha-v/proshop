@@ -5,7 +5,7 @@ import { LinkContainer } from 'react-router-bootstrap';
 import { RouteComponentProps } from 'react-router-dom';
 
 import { Message, Loader } from '../components';
-import { listUsers } from '../actions';
+import { listUsers, deleteUser } from '../actions';
 import { AppDispatch } from '../store';
 import { ReduxState } from '../types';
 
@@ -17,13 +17,18 @@ const UserListScreen = ({ history }: UserListScreenProps) => {
 		(state: ReduxState) => state.userList
 	);
 	const { userInfo } = useSelector((state: ReduxState) => state.userLogin);
+	const { success: successDelete } = useSelector(
+		(state: ReduxState) => state.userDelete
+	);
 
 	useEffect(() => {
 		if (userInfo && userInfo.isAdmin) dispatch(listUsers());
 		else history.push('/login');
-	}, [dispatch, history, userInfo]);
+	}, [dispatch, history, userInfo, successDelete]);
 
-	const deleteHandler = (userId: string) => {};
+	const deleteHandler = (userId: string) => {
+		if (window.confirm('Are you sure')) dispatch(deleteUser(userId));
+	};
 
 	const UsersListDisplay = () => {
 		if (loading) return <Loader />;
@@ -56,7 +61,7 @@ const UserListScreen = ({ history }: UserListScreenProps) => {
 									)}
 								</td>
 								<td>
-									<LinkContainer to={`/user/${user._id}/edit`}>
+									<LinkContainer to={`/admin/user/${user._id}/edit`}>
 										<Button variant='light' className='btn-sm'>
 											<i className='fas fa-edit'></i>
 										</Button>

@@ -10,7 +10,9 @@ import {
 	User,
 	UserUpdateProfileActionTypes,
 	PasswordUser,
-	OrderListMyActionTypes
+	OrderListMyActionTypes,
+	UserDeleteActionTypes,
+	UserUpdateActionTypes
 } from '../types';
 import { UserListActionTypes } from '../types/UserList';
 
@@ -159,6 +161,56 @@ export const listUsers = (): AppThunk => async (dispatch, getState) => {
 	} catch (error) {
 		dispatch({
 			type: UserListActionTypes.USER_LIST_FAILURE,
+			payload: errorHandler(error)
+		});
+	}
+};
+
+export const deleteUser = (id: string): AppThunk => async (
+	dispatch,
+	getState
+) => {
+	try {
+		dispatch({ type: UserDeleteActionTypes.USER_DELETE_REQUEST });
+		const { userInfo } = getState().userLogin;
+		const config = {
+			headers: {
+				'Content-Type': 'Application/json',
+				Authorization: `Bearer ${userInfo?.token}`
+			}
+		};
+		await axios.delete(`/api/users/${id}`, config);
+		dispatch({ type: UserDeleteActionTypes.USER_DELETE_SUCCESS });
+	} catch (error) {
+		dispatch({
+			type: UserDeleteActionTypes.USER_DELETE_FAILURE,
+			payload: errorHandler(error)
+		});
+	}
+};
+
+export const updateUser = (user: User): AppThunk => async (
+	dispatch,
+	getState
+) => {
+	try {
+		dispatch({
+			type: UserUpdateActionTypes.USER_UPDATE_REQUEST
+		});
+		const { userInfo } = getState().userLogin;
+		const config = {
+			headers: {
+				'Content-Type': 'Application/json',
+				Authorization: `Bearer ${userInfo?.token}`
+			}
+		};
+		await axios.put(`/api/users/${user._id}`, user, config);
+		dispatch({
+			type: UserUpdateActionTypes.USER_UPDATE_SUCCESS
+		});
+	} catch (error) {
+		dispatch({
+			type: UserUpdateActionTypes.USER_UPDATE_FAILURE,
 			payload: errorHandler(error)
 		});
 	}
