@@ -3,6 +3,7 @@ export * from './Order';
 export * from './Product';
 export * from './ProductList';
 export * from './ProductDetails';
+export * from './ProductDelete';
 export * from './User';
 export * from './UserLogin';
 export * from './UserRegister';

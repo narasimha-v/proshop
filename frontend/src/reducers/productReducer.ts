@@ -4,7 +4,10 @@ import {
 	ProductListState,
 	ProductDetailsAction,
 	ProductDetailsActionTypes,
-	ProductDetailsState
+	ProductDetailsState,
+	ProductDeleteAction,
+	ProductDeleteActionTypes,
+	ProductDeleteState
 } from '../types';
 
 const initialProductListState: ProductListState = {
@@ -55,6 +58,31 @@ export const productDetailsReducer = (
 			return {
 				loading: initialProductDetailsState.loading,
 				product: initialProductDetailsState.product,
+				error: action.payload
+			};
+		default:
+			return state;
+	}
+};
+
+const initialProductDeleteState: ProductDeleteState = {
+	loading: false
+};
+
+export const productDeleteReducer = (
+	state: ProductDeleteState = initialProductDeleteState,
+	action: ProductDeleteAction
+) => {
+	switch (action.type) {
+		case ProductDeleteActionTypes.PRODUCT_DELETE_REQUEST:
+			return { loading: true };
+		case ProductDeleteActionTypes.PRODUCT_DELETE_SUCCESS:
+			return {
+				loading: initialProductDeleteState.loading,
+				success: true
+			};
+		case ProductDeleteActionTypes.PRODUCT_DELETE_FAILURE:
+			return {
 				error: action.payload
 			};
 		default:
