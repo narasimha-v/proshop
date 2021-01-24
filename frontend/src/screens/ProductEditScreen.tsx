@@ -97,7 +97,7 @@ const ProductEditScreen = ({
 		}
 	};
 
-	const ProductDetailDisplay = () => {
+	const productDetailDisplay = () => {
 		if (loading || loadingUpdate) return <Loader />;
 		else if (error) return <Message variant='danger'>{error}</Message>;
 		else if (errorUpdate)
@@ -189,7 +189,7 @@ const ProductEditScreen = ({
 			<Link to='/admin/productlist' className='btn btn-dark my-3'>
 				Go Back
 			</Link>
-			<ProductDetailDisplay />
+			{productDetailDisplay()}
 		</>
 	);
 };

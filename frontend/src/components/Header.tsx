@@ -7,6 +7,7 @@ import { useHistory } from 'react-router-dom';
 import { ReduxState } from '../types';
 import { logout } from '../actions';
 import { AppDispatch } from '../store';
+import { SearchBox } from '.';
 
 const Header = () => {
 	const history = useHistory();
@@ -23,6 +24,7 @@ const Header = () => {
 					</LinkContainer>
 					<Navbar.Toggle aria-controls='basic-navbar-nav' />
 					<Navbar.Collapse id='basic-navbar-nav'>
+						<SearchBox />
 						<Nav className='ml-auto'>
 							<LinkContainer to='/cart'>
 								<Nav.Link>

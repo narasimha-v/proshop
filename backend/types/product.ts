@@ -1,5 +1,4 @@
 import { Model, Document } from 'mongoose';
-import { UserDocument } from '.';
 
 export interface Product {
 	name: string;
@@ -14,8 +13,9 @@ export interface Product {
 }
 
 export interface Review {
+	user: string;
 	name: string;
-	rating: string;
+	rating: number;
 	comment: string;
 }
 

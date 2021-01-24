@@ -11,10 +11,10 @@ import {
 } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { Loader, Message, Rating } from '../components';
-import { ReduxState } from '../types';
+import { Loader, Message, Meta, Rating } from '../components';
+import { ReduxState, ProductCreateReviewActionTypes } from '../types';
 import { AppDispatch } from '../store';
-import { listProductDetails } from '../actions';
+import { listProductDetails, createProductReview } from '../actions';
 
 interface MatchParams {
 	id: string;
@@ -28,21 +28,38 @@ const ProductScreen: FunctionComponent<ProductScreenProps> = ({
 	},
 	history
 }: ProductScreenProps) => {
-	const [qty, setQty] = useState(1);
+	const [qty, setQty] = useState<number>(1);
+	const [rating, setRating] = useState<number>(0);
+	const [comment, setComment] = useState<string>('');
 	const dispatch = useDispatch<AppDispatch>();
+	const { userInfo } = useSelector((state: ReduxState) => state.userLogin);
 	const { product, loading, error } = useSelector(
 		(state: ReduxState) => state.productDetails
 	);
+	const {
+		error: errorProductReview,
+		loading: loadingProductReview,
+		success: successProductReview
+	} = useSelector((state: ReduxState) => state.productCreateReview);
 
 	useEffect(() => {
+		if (successProductReview)
+			dispatch({
+				type: ProductCreateReviewActionTypes.PRODUCT_CREATE_REVIEW_RESET
+			});
 		dispatch(listProductDetails(id));
-	}, [id, dispatch]);
+	}, [id, dispatch, successProductReview]);
 
 	const addToCartHandler = () => {
 		history.push(`/cart/${id}?qty=${qty}`);
 	};
 
-	const ProductDetailDisplay = () => {
+	const submitHandler = (e: React.FormEvent<HTMLFormElement>) => {
+		e.preventDefault();
+		dispatch(createProductReview(id, { rating, comment }));
+	};
+
+	const productDetailDisplay = () => {
 		if (loading) return <Loader />;
 		else if (error) return <Message variant='danger'>{error}</Message>;
 		else if (!product)
@@ -50,9 +67,7 @@ const ProductScreen: FunctionComponent<ProductScreenProps> = ({
 		else
 			return (
 				<>
-					<Link to='/' className='btn btn-dark my-3'>
-						Go Back
-					</Link>
+					<Meta title={product.name} />
 					<Row>
 						<Col md={6}>
 							<Image src={product.image} alt={product.name} fluid />
@@ -127,11 +142,73 @@ const ProductScreen: FunctionComponent<ProductScreenProps> = ({
 							</Card>
 						</Col>
 					</Row>
+					<Row className='my-3'>
+						<Col md={6}>
+							<h2>Reviews</h2>
+							{product.reviews.length === 0 && <Message>No reviews</Message>}
+							<ListGroup variant='flush'>
+								{userInfo &&
+									!product.reviews.find((p) => p.user === userInfo._id) && (
+										<ListGroup.Item>
+											<h2>Writer a customer review</h2>
+											{errorProductReview && (
+												<Message variant='danger'>{errorProductReview}</Message>
+											)}
+											{loadingProductReview && <Loader />}
+											<Form onSubmit={submitHandler}>
+												<Form.Group controlId='rating'>
+													<Form.Label>Rating</Form.Label>
+													<Form.Control
+														as='select'
+														value={rating}
+														onChange={(e) => setRating(Number(e.target.value))}>
+														<option value=''>Select...</option>
+														<option value='1'>1 - Poor</option>
+														<option value='2'>2 - Fair</option>
+														<option value='3'>3 - Good</option>
+														<option value='4'>4 - Very Good</option>
+														<option value='5'>5 - Excellent</option>
+													</Form.Control>
+												</Form.Group>
+												<Form.Group controlId='comment'>
+													<Form.Label>Comment</Form.Label>
+													<Form.Control
+														as='textarea'
+														rows={3}
+														value={comment}
+														onChange={(e) =>
+															setComment(e.target.value)
+														}></Form.Control>
+												</Form.Group>
+												<Button type='submit' variant='primary'>
+													Submit
+												</Button>
+											</Form>
+										</ListGroup.Item>
+									)}
+								{product.reviews.map((review) => (
+									<ListGroup.Item key={review._id}>
+										<strong>{review.name}</strong>
+										<Rating value={review.rating} />
+										<p>{review.createdAt.substring(0, 10)}</p>
+										<p>{review.comment}</p>
+									</ListGroup.Item>
+								))}
+							</ListGroup>
+						</Col>
+					</Row>
 				</>
 			);
 	};
 
-	return <ProductDetailDisplay />;
+	return (
+		<>
+			<Link to='/' className='btn btn-dark my-3'>
+				Go Back
+			</Link>
+			{productDetailDisplay()}
+		</>
+	);
 };
 
 export default ProductScreen;

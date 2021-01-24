@@ -4,16 +4,26 @@ import { useDispatch, useSelector } from 'react-redux';
 import { LinkContainer } from 'react-router-bootstrap';
 import { RouteComponentProps } from 'react-router-dom';
 
-import { Message, Loader } from '../components';
+import { Message, Loader, Paginate } from '../components';
 import { listProducts, deleteProduct, createProduct } from '../actions';
 import { AppDispatch } from '../store';
 import { ReduxState, ProductCreateActionTypes } from '../types';
 
-interface ProductListProps extends RouteComponentProps {}
+interface MatchParams {
+	pageNumber: string;
+}
 
-const ProductList = ({ history }: ProductListProps) => {
+interface ProductListProps extends RouteComponentProps<MatchParams> {}
+
+const ProductList = ({
+	history,
+	match: {
+		params: { pageNumber: pgNumber }
+	}
+}: ProductListProps) => {
+	const pageNumber = pgNumber || '1';
 	const dispatch = useDispatch<AppDispatch>();
-	const { loading, products, error } = useSelector(
+	const { loading, products, error, page, pages } = useSelector(
 		(state: ReduxState) => state.productList
 	);
 	const { success, loading: loadingDelete, error: errorDelete } = useSelector(
@@ -32,8 +42,16 @@ const ProductList = ({ history }: ProductListProps) => {
 		if (!userInfo?.isAdmin) history.push('/login');
 		if (successCreate && createdProduct) {
 			history.push(`/admin/product/${createdProduct._id}/edit`);
-		} else dispatch(listProducts());
-	}, [dispatch, history, userInfo, success, successCreate, createdProduct]);
+		} else dispatch(listProducts('', pageNumber));
+	}, [
+		dispatch,
+		history,
+		userInfo,
+		success,
+		successCreate,
+		createdProduct,
+		pageNumber
+	]);
 
 	const deleteHandler = (userId: string) => {
 		if (window.confirm('Are you sure')) {
@@ -45,7 +63,7 @@ const ProductList = ({ history }: ProductListProps) => {
 		dispatch(createProduct());
 	};
 
-	const ProductsListDisplay = () => {
+	const productsListDisplay = () => {
 		if (loading || loadingDelete || loadingCreate) return <Loader />;
 		else if (error) return <Message variant='danger'>{error}</Message>;
 		else if (errorCreate)
@@ -54,42 +72,47 @@ const ProductList = ({ history }: ProductListProps) => {
 			return <Message variant='danger'>{errorDelete}</Message>;
 		else
 			return (
-				<Table striped bordered hover responsive className='table-sm'>
-					<thead>
-						<tr>
-							<th>ID</th>
-							<th>NAME</th>
-							<th>PRICE</th>
-							<th>CATEGORY</th>
-							<th>BRAND</th>
-							<th></th>
-						</tr>
-					</thead>
-					<tbody>
-						{products.map((product) => (
-							<tr key={product._id}>
-								<td>{product._id}</td>
-								<td>{product.name}</td>
-								<td>${product.price}</td>
-								<td>{product.category}</td>
-								<td>{product.brand}</td>
-								<td>
-									<LinkContainer to={`/admin/product/${product._id}/edit`}>
-										<Button variant='light' className='btn-sm'>
-											<i className='fas fa-edit'></i>
-										</Button>
-									</LinkContainer>
-									<Button
-										variant='danger'
-										className='btn-sm'
-										onClick={() => deleteHandler(product._id)}>
-										<i className='fas fa-trash'></i>
-									</Button>
-								</td>
+				<>
+					<Table striped bordered hover responsive className='table-sm'>
+						<thead>
+							<tr>
+								<th>ID</th>
+								<th>NAME</th>
+								<th>PRICE</th>
+								<th>CATEGORY</th>
+								<th>BRAND</th>
+								<th></th>
 							</tr>
-						))}
-					</tbody>
-				</Table>
+						</thead>
+						<tbody>
+							{products.map((product) => (
+								<tr key={product._id}>
+									<td>{product._id}</td>
+									<td>{product.name}</td>
+									<td>${product.price}</td>
+									<td>{product.category}</td>
+									<td>{product.brand}</td>
+									<td>
+										<LinkContainer to={`/admin/product/${product._id}/edit`}>
+											<Button variant='light' className='btn-sm'>
+												<i className='fas fa-edit'></i>
+											</Button>
+										</LinkContainer>
+										<Button
+											variant='danger'
+											className='btn-sm'
+											onClick={() => deleteHandler(product._id)}>
+											<i className='fas fa-trash'></i>
+										</Button>
+									</td>
+								</tr>
+							))}
+						</tbody>
+					</Table>
+					{userInfo && page && pages && (
+						<Paginate page={page} pages={pages} isAdmin={userInfo.isAdmin} />
+					)}
+				</>
 			);
 	};
 
@@ -105,7 +128,7 @@ const ProductList = ({ history }: ProductListProps) => {
 					</Button>
 				</Col>
 			</Row>
-			<ProductsListDisplay />
+			{productsListDisplay()}
 		</>
 	);
 };

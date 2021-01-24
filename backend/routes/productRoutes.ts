@@ -4,13 +4,17 @@ import {
 	getProductById,
 	deleteProduct,
 	createProduct,
-	updateProduct
+	updateProduct,
+	createProductReview,
+	getTopProducts
 } from '../controllers';
 import { isAdmin, protect } from '../middleware';
 
 const router = Router();
 
 router.route('/').get(getProducts).post(protect, isAdmin, createProduct);
+router.route('/top').get(getTopProducts);
+router.route('/:id/reviews').post(protect, createProductReview);
 router
 	.route('/:id')
 	.get(getProductById)

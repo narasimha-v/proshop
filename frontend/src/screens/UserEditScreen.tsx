@@ -52,7 +52,7 @@ const UserEditScreen = ({
 		dispatch(updateUser({ _id: userId, name, email, isAdmin }));
 	};
 
-	const UserDetailsDisplay = () => {
+	const userDetailsDisplay = () => {
 		if (loading || loadingUpdate) return <Loader />;
 		else if (error) return <Message variant='danger'>{error}</Message>;
 		else if (errorUpdate)
@@ -102,7 +102,7 @@ const UserEditScreen = ({
 			<Link to='/admin/userlist' className='btn btn-dark my-3'>
 				Go Back
 			</Link>
-			<UserDetailsDisplay />
+			{userDetailsDisplay()}
 		</>
 	);
 };

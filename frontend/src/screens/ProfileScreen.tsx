@@ -34,20 +34,19 @@ const ProfileScreen = ({ history }: ProfileScreenProps) => {
 	useEffect(() => {
 		if (!userInfo) history.push('/login');
 		else {
+			if (success) setUpdateMessage(true);
 			if (!user || success) {
 				dispatch(getUserDetails('profile'));
 				dispatch(listMyOrders());
 				dispatch({
 					type: UserUpdateProfileActionTypes.USER_UPDATE_PROFILE_RESET
 				});
-				setUpdateMessage(true);
-			} else if (success) {
 			} else {
 				setName(user.name);
 				setEmail(user.email);
 			}
 		}
-	}, [history, userInfo, dispatch, user, success, error]);
+	}, [history, userInfo, dispatch, user, success]);
 
 	const submitHandler = (e: React.FormEvent<HTMLFormElement>) => {
 		e.preventDefault();

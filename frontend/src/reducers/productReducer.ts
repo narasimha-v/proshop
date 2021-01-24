@@ -13,7 +13,13 @@ import {
 	ProductCreateActionTypes,
 	ProductUpdateAction,
 	ProductUpdateState,
-	ProductUpdateActionTypes
+	ProductUpdateActionTypes,
+	ProductCreateReviewState,
+	ProductCreateReviewAction,
+	ProductCreateReviewActionTypes,
+	ProductTopState,
+	ProductTopAction,
+	ProductTopActionTypes
 } from '../types';
 
 const initialProductListState: ProductListState = {
@@ -31,7 +37,9 @@ export const productListReducer = (
 		case ProductListActionTypes.PRODUCT_LIST_SUCCESS:
 			return {
 				loading: initialProductListState.loading,
-				products: action.payload
+				products: action.payload.products,
+				pages: action.payload.pages,
+				page: action.payload.page
 			};
 		case ProductListActionTypes.PRODUCT_LIST_FAILURE:
 			return {
@@ -147,6 +155,60 @@ export const productUpdateReducer = (
 			};
 		case ProductUpdateActionTypes.PRODUCT_UPDATE_RESET:
 			return {};
+		default:
+			return state;
+	}
+};
+
+const initialProductCreateReviewState: ProductCreateReviewState = {
+	loading: false
+};
+
+export const productCreateReviewReducer = (
+	state: ProductCreateReviewState = initialProductCreateReviewState,
+	action: ProductCreateReviewAction
+) => {
+	switch (action.type) {
+		case ProductCreateReviewActionTypes.PRODUCT_CREATE_REVIEW_REQUEST:
+			return { loading: true };
+		case ProductCreateReviewActionTypes.PRODUCT_CREATE_REVIEW_SUCCESS:
+			return {
+				loading: initialProductCreateReviewState.loading,
+				success: true
+			};
+		case ProductCreateReviewActionTypes.PRODUCT_CREATE_REVIEW_FAILURE:
+			return {
+				error: action.payload
+			};
+		case ProductCreateReviewActionTypes.PRODUCT_CREATE_REVIEW_RESET:
+			return {};
+		default:
+			return state;
+	}
+};
+
+const initialProductTopState: ProductTopState = {
+	products: [],
+	loading: false
+};
+
+export const productTopRatedReducer = (
+	state: ProductTopState = initialProductTopState,
+	action: ProductTopAction
+) => {
+	switch (action.type) {
+		case ProductTopActionTypes.PRODUCT_TOP_REQUEST:
+			return { loading: true, products: initialProductTopState.products };
+		case ProductTopActionTypes.PRODUCT_TOP_SUCCESS:
+			return {
+				loading: initialProductTopState.loading,
+				products: action.payload
+			};
+		case ProductTopActionTypes.PRODUCT_TOP_FAILURE:
+			return {
+				products: initialProductListState.products,
+				error: action.payload
+			};
 		default:
 			return state;
 	}

@@ -22,7 +22,9 @@ import {
 	productCreateReducer,
 	productUpdateReducer,
 	orderListReducer,
-	orderDeliverReducer
+	orderDeliverReducer,
+	productCreateReviewReducer,
+	productTopRatedReducer
 } from './reducers';
 
 export type AppDispatch = ThunkDispatch<ReduxState, unknown, Action<string>>;
@@ -52,7 +54,9 @@ const reducer = combineReducers<ReduxState>({
 	productCreate: productCreateReducer,
 	ProductUpdate: productUpdateReducer,
 	orderList: orderListReducer,
-	orderDeliver: orderDeliverReducer
+	orderDeliver: orderDeliverReducer,
+	productCreateReview: productCreateReviewReducer,
+	productTopRated: productTopRatedReducer
 });
 
 const cartItemsFromStorage = localStorage.getItem('cartItems');

@@ -17,7 +17,9 @@ import {
 	OrderListMyState,
 	UserUpdateState,
 	OrderListState,
-	OrderDeliverState
+	OrderDeliverState,
+	ProductCreateReviewState,
+	ProductTopState
 } from '.';
 
 export interface ReduxState {
@@ -40,4 +42,6 @@ export interface ReduxState {
 	productCreate: ProductCreateState;
 	ProductUpdate: ProductUpdateState;
 	orderDeliver: OrderDeliverState;
+	productCreateReview: ProductCreateReviewState;
+	productTopRated: ProductTopState;
 }

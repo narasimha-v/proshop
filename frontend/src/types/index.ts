@@ -5,6 +5,8 @@ export * from './ProductList';
 export * from './ProductDetails';
 export * from './ProductDelete';
 export * from './ProductCreate';
+export * from './ProductCreateReview';
+export * from './ProductTop';
 export * from './ProductUpdate';
 export * from './User';
 export * from './UserLogin';

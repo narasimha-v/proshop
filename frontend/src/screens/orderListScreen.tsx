@@ -23,7 +23,7 @@ const OrderListScreen = ({ history }: OrderListScreenProps) => {
 		else history.push('/login');
 	}, [dispatch, history, userInfo]);
 
-	const OrderListDisplay = () => {
+	const orderListDisplay = () => {
 		if (loading) return <Loader />;
 		else if (error) return <Message variant='danger'>{error}</Message>;
 		else
@@ -78,7 +78,7 @@ const OrderListScreen = ({ history }: OrderListScreenProps) => {
 	return (
 		<>
 			<h1>Orders</h1>
-			<OrderListDisplay />
+			{orderListDisplay()}
 		</>
 	);
 };

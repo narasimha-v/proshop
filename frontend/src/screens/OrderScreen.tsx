@@ -72,7 +72,7 @@ const OrderScreen = ({
 
 	const addDecimals = (num: number) => (Math.round(num * 100) / 100).toFixed(2);
 
-	const DisplayOrderDetails = () => {
+	const displayOrderDetails = () => {
 		if (loading) return <Loader />;
 		else if (error || !order)
 			return <Message variant='danger'>{error}</Message>;
@@ -221,7 +221,7 @@ const OrderScreen = ({
 			);
 	};
 
-	return <DisplayOrderDetails />;
+	return <>{displayOrderDetails()}</>;
 };
 
 export default OrderScreen;

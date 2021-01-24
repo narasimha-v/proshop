@@ -30,7 +30,7 @@ const UserListScreen = ({ history }: UserListScreenProps) => {
 		if (window.confirm('Are you sure')) dispatch(deleteUser(userId));
 	};
 
-	const UsersListDisplay = () => {
+	const usersListDisplay = () => {
 		if (loading) return <Loader />;
 		else if (error) return <Message variant='danger'>{error}</Message>;
 		else
@@ -83,7 +83,7 @@ const UserListScreen = ({ history }: UserListScreenProps) => {
 	return (
 		<>
 			<h1>Users</h1>
-			<UsersListDisplay />
+			{usersListDisplay()}
 		</>
 	);
 };

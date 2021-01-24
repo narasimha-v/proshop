@@ -7,13 +7,33 @@ import {
 	Product,
 	ProductDeleteActionTypes,
 	ProductCreateActionTypes,
-	ProductUpdateActionTypes
+	ProductUpdateActionTypes,
+	ProductCreateReviewActionTypes,
+	ProductTopActionTypes
 } from '../types';
 
-export const listProducts = (): AppThunk => async (dispatch) => {
+interface UpdateProductInput {
+	_id: string;
+	name: string;
+	image: string;
+	description: string;
+	brand: string;
+	category: string;
+	price: number;
+	countInStock: number;
+}
+
+export const listProducts = (
+	keyword: string = '',
+	pageNumber: string = ''
+): AppThunk => async (dispatch) => {
 	try {
 		dispatch({ type: ProductListActionTypes.PRODUCT_LIST_REQUEST });
-		const { data } = await axios.get<Product[]>('/api/products');
+		const { data } = await axios.get<{
+			products: Product[];
+			page: number;
+			pages: number;
+		}>(`/api/products?keyword=${keyword}&pageNumber=${pageNumber}`);
 		dispatch({
 			type: ProductListActionTypes.PRODUCT_LIST_SUCCESS,
 			payload: data
@@ -92,17 +112,6 @@ export const createProduct = (): AppThunk => async (dispatch, getState) => {
 	}
 };
 
-interface UpdateProductInput {
-	_id: string;
-	name: string;
-	image: string;
-	description: string;
-	brand: string;
-	category: string;
-	price: number;
-	countInStock: number;
-}
-
 export const updateProduct = (product: UpdateProductInput): AppThunk => async (
 	dispatch,
 	getState
@@ -128,6 +137,49 @@ export const updateProduct = (product: UpdateProductInput): AppThunk => async (
 	} catch (error) {
 		dispatch({
 			type: ProductUpdateActionTypes.PRODUCT_UPDATE_FAILURE,
+			payload: errorHandler(error)
+		});
+	}
+};
+
+export const createProductReview = (
+	prductId: string,
+	review: { rating: number; comment: string }
+): AppThunk => async (dispatch, getState) => {
+	try {
+		dispatch({
+			type: ProductCreateReviewActionTypes.PRODUCT_CREATE_REVIEW_REQUEST
+		});
+		const { userInfo } = getState().userLogin;
+		const config = {
+			headers: {
+				'Content-Type': 'Application/json',
+				Authorization: `Bearer ${userInfo?.token}`
+			}
+		};
+		await axios.post(`/api/products/${prductId}/reviews`, review, config);
+		dispatch({
+			type: ProductCreateReviewActionTypes.PRODUCT_CREATE_REVIEW_SUCCESS
+		});
+	} catch (error) {
+		dispatch({
+			type: ProductCreateReviewActionTypes.PRODUCT_CREATE_REVIEW_FAILURE,
+			payload: errorHandler(error)
+		});
+	}
+};
+
+export const listTopProducts = (): AppThunk => async (dispatch) => {
+	try {
+		dispatch({ type: ProductTopActionTypes.PRODUCT_TOP_REQUEST });
+		const { data } = await axios.get<Product[]>(`/api/products/top`);
+		dispatch({
+			type: ProductTopActionTypes.PRODUCT_TOP_SUCCESS,
+			payload: data
+		});
+	} catch (error) {
+		dispatch({
+			type: ProductTopActionTypes.PRODUCT_TOP_FAILURE,
 			payload: errorHandler(error)
 		});
 	}
