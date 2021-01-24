@@ -19,28 +19,28 @@ export interface OrderListMyState {
 }
 
 export enum OrderListMyActionTypes {
-	ODRER_LIST_MY_REQUEST = 'ODRER_LIST_MY_REQUEST',
-	ODRER_LIST_MY_SUCCESS = 'ODRER_LIST_MY_SUCCESS',
-	ODRER_LIST_MY_FAILURE = 'ODRER_LIST_MY_FAILURE',
-	ODRER_LIST_MY_RESET = 'ODRER_LIST_MY_RESET'
+	ORDER_LIST_MY_REQUEST = 'ORDER_LIST_MY_REQUEST',
+	ORDER_LIST_MY_SUCCESS = 'ORDER_LIST_MY_SUCCESS',
+	ORDER_LIST_MY_FAILURE = 'ORDER_LIST_MY_FAILURE',
+	ORDER_LIST_MY_RESET = 'ORDER_LIST_MY_RESET'
 }
 
 export interface OrderListMyRequestAction {
-	type: OrderListMyActionTypes.ODRER_LIST_MY_REQUEST;
+	type: OrderListMyActionTypes.ORDER_LIST_MY_REQUEST;
 }
 
 export interface OrderListMySuccessAction {
-	type: OrderListMyActionTypes.ODRER_LIST_MY_SUCCESS;
+	type: OrderListMyActionTypes.ORDER_LIST_MY_SUCCESS;
 	payload: OrderListMy[];
 }
 
 export interface OrderListMyFailureAction {
-	type: OrderListMyActionTypes.ODRER_LIST_MY_FAILURE;
+	type: OrderListMyActionTypes.ORDER_LIST_MY_FAILURE;
 	payload: any;
 }
 
 export interface OrderListMyResetAction {
-	type: OrderListMyActionTypes.ODRER_LIST_MY_RESET;
+	type: OrderListMyActionTypes.ORDER_LIST_MY_RESET;
 }
 
 export type OrderListMyAction =

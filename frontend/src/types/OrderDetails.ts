@@ -28,22 +28,22 @@ export interface OrderDetailsState {
 }
 
 export enum OrderDetailsActionTypes {
-	ODRER_DETAILS_REQUEST = 'ODRER_DETAILS_REQUEST',
-	ODRER_DETAILS_SUCCESS = 'ODRER_DETAILS_SUCCESS',
-	ODRER_DETAILS_FAILURE = 'ODRER_DETAILS_FAILURE'
+	ORDER_DETAILS_REQUEST = 'ORDER_DETAILS_REQUEST',
+	ORDER_DETAILS_SUCCESS = 'ORDER_DETAILS_SUCCESS',
+	ORDER_DETAILS_FAILURE = 'ORDER_DETAILS_FAILURE'
 }
 
 export interface OrderDetailsRequestAction {
-	type: OrderDetailsActionTypes.ODRER_DETAILS_REQUEST;
+	type: OrderDetailsActionTypes.ORDER_DETAILS_REQUEST;
 }
 
 export interface OrderDetailsSuccessAction {
-	type: OrderDetailsActionTypes.ODRER_DETAILS_SUCCESS;
+	type: OrderDetailsActionTypes.ORDER_DETAILS_SUCCESS;
 	payload: OrderDetails;
 }
 
 export interface OrderDetailsFailureAction {
-	type: OrderDetailsActionTypes.ODRER_DETAILS_FAILURE;
+	type: OrderDetailsActionTypes.ORDER_DETAILS_FAILURE;
 	payload: any;
 }
 

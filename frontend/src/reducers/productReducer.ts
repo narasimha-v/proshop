@@ -7,7 +7,13 @@ import {
 	ProductDetailsState,
 	ProductDeleteAction,
 	ProductDeleteActionTypes,
-	ProductDeleteState
+	ProductDeleteState,
+	ProductCreateState,
+	ProductCreateAction,
+	ProductCreateActionTypes,
+	ProductUpdateAction,
+	ProductUpdateState,
+	ProductUpdateActionTypes
 } from '../types';
 
 const initialProductListState: ProductListState = {
@@ -85,6 +91,62 @@ export const productDeleteReducer = (
 			return {
 				error: action.payload
 			};
+		default:
+			return state;
+	}
+};
+
+const initialProductCreateState: ProductCreateState = {
+	loading: false
+};
+
+export const productCreateReducer = (
+	state: ProductCreateState = initialProductCreateState,
+	action: ProductCreateAction
+) => {
+	switch (action.type) {
+		case ProductCreateActionTypes.PRODUCT_CREATE_REQUEST:
+			return { loading: true };
+		case ProductCreateActionTypes.PRODUCT_CREATE_SUCCESS:
+			return {
+				loading: initialProductCreateState.loading,
+				success: true,
+				product: action.payload
+			};
+		case ProductCreateActionTypes.PRODUCT_CREATE_FAILURE:
+			return {
+				error: action.payload
+			};
+		case ProductCreateActionTypes.PRODUCT_CREATE_RESET:
+			return {};
+		default:
+			return state;
+	}
+};
+
+const initialProductUpdateState: ProductUpdateState = {
+	loading: false
+};
+
+export const productUpdateReducer = (
+	state: ProductUpdateState = initialProductUpdateState,
+	action: ProductUpdateAction
+) => {
+	switch (action.type) {
+		case ProductUpdateActionTypes.PRODUCT_UPDATE_REQUEST:
+			return { loading: true };
+		case ProductUpdateActionTypes.PRODUCT_UPDATE_SUCCESS:
+			return {
+				loading: initialProductUpdateState.loading,
+				success: true,
+				product: action.payload
+			};
+		case ProductUpdateActionTypes.PRODUCT_UPDATE_FAILURE:
+			return {
+				error: action.payload
+			};
+		case ProductUpdateActionTypes.PRODUCT_UPDATE_RESET:
+			return {};
 		default:
 			return state;
 	}

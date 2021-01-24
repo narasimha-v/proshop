@@ -5,22 +5,22 @@ export interface OrderPayState {
 }
 
 export enum OrderPayActionTypes {
-	ODRER_PAY_REQUEST = 'ODRER_PAY_REQUEST',
-	ODRER_PAY_SUCCESS = 'ODRER_PAY_SUCCESS',
-	ODRER_PAY_FAILURE = 'ODRER_PAY_FAILURE',
+	ORDER_PAY_REQUEST = 'ORDER_PAY_REQUEST',
+	ORDER_PAY_SUCCESS = 'ORDER_PAY_SUCCESS',
+	ORDER_PAY_FAILURE = 'ORDER_PAY_FAILURE',
 	ORDER_PAY_RESET = 'ORDER_PAY_RESET'
 }
 
 export interface OrderPayRequestAction {
-	type: OrderPayActionTypes.ODRER_PAY_REQUEST;
+	type: OrderPayActionTypes.ORDER_PAY_REQUEST;
 }
 
 export interface OrderPaySuccessAction {
-	type: OrderPayActionTypes.ODRER_PAY_SUCCESS;
+	type: OrderPayActionTypes.ORDER_PAY_SUCCESS;
 }
 
 export interface OrderPayFailureAction {
-	type: OrderPayActionTypes.ODRER_PAY_FAILURE;
+	type: OrderPayActionTypes.ORDER_PAY_FAILURE;
 	payload: any;
 }
 

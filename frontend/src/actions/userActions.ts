@@ -41,7 +41,7 @@ export const login = (email: string, password: string): AppThunk => async (
 
 export const logout = (callback: () => void): AppThunk => async (dispatch) => {
 	dispatch({ type: UserLoginActionTypes.USER_LOGOUT });
-	dispatch({ type: OrderListMyActionTypes.ODRER_LIST_MY_RESET });
+	dispatch({ type: OrderListMyActionTypes.ORDER_LIST_MY_RESET });
 	dispatch({ type: UserDetailsActionTypes.USER_DETAILS_RESET });
 	dispatch({ type: UserListActionTypes.USER_LIST_RESET });
 	localStorage.removeItem('userInfo');

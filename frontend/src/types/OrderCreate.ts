@@ -13,22 +13,22 @@ export interface OrderCreateState {
 }
 
 export enum OrderCreateActionTypes {
-	ODRER_CREATE_REQUEST = 'ODRER_CREATE_REQUEST',
-	ODRER_CREATE_SUCCESS = 'ODRER_CREATE_SUCCESS',
-	ODRER_CREATE_FAILURE = 'ODRER_CREATE_FAILURE'
+	ORDER_CREATE_REQUEST = 'ORDER_CREATE_REQUEST',
+	ORDER_CREATE_SUCCESS = 'ORDER_CREATE_SUCCESS',
+	ORDER_CREATE_FAILURE = 'ORDER_CREATE_FAILURE'
 }
 
 export interface OrderCreateRequestAction {
-	type: OrderCreateActionTypes.ODRER_CREATE_REQUEST;
+	type: OrderCreateActionTypes.ORDER_CREATE_REQUEST;
 }
 
 export interface OrderCreateSuccessAction {
-	type: OrderCreateActionTypes.ODRER_CREATE_SUCCESS;
+	type: OrderCreateActionTypes.ORDER_CREATE_SUCCESS;
 	payload: OrderCreate;
 }
 
 export interface OrderCreateFailureAction {
-	type: OrderCreateActionTypes.ODRER_CREATE_FAILURE;
+	type: OrderCreateActionTypes.ORDER_CREATE_FAILURE;
 	payload: any;
 }
 

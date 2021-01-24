@@ -7,8 +7,11 @@ import {
 	Order,
 	OrderCreate,
 	OrderCreateActionTypes,
+	OrderDeliverActionTypes,
 	OrderDetails,
 	OrderDetailsActionTypes,
+	OrderList,
+	OrderListActionTypes,
 	OrderListMy,
 	OrderListMyActionTypes,
 	OrderPayActionTypes
@@ -19,7 +22,7 @@ export const createOrder = (order: Order): AppThunk => async (
 	getState
 ) => {
 	try {
-		dispatch({ type: OrderCreateActionTypes.ODRER_CREATE_REQUEST });
+		dispatch({ type: OrderCreateActionTypes.ORDER_CREATE_REQUEST });
 		const { userInfo } = getState().userLogin;
 		const config = {
 			headers: {
@@ -33,7 +36,7 @@ export const createOrder = (order: Order): AppThunk => async (
 			config
 		);
 		dispatch({
-			type: OrderCreateActionTypes.ODRER_CREATE_SUCCESS,
+			type: OrderCreateActionTypes.ORDER_CREATE_SUCCESS,
 			payload: data
 		});
 		localStorage.removeItem('cartItems');
@@ -42,7 +45,7 @@ export const createOrder = (order: Order): AppThunk => async (
 		});
 	} catch (error) {
 		dispatch({
-			type: OrderCreateActionTypes.ODRER_CREATE_FAILURE,
+			type: OrderCreateActionTypes.ORDER_CREATE_FAILURE,
 			payload: errorHandler(error)
 		});
 	}
@@ -53,7 +56,7 @@ export const getOrderDetails = (id: string): AppThunk => async (
 	getState
 ) => {
 	try {
-		dispatch({ type: OrderDetailsActionTypes.ODRER_DETAILS_REQUEST });
+		dispatch({ type: OrderDetailsActionTypes.ORDER_DETAILS_REQUEST });
 		const { userInfo } = getState().userLogin;
 		const config = {
 			headers: {
@@ -63,12 +66,12 @@ export const getOrderDetails = (id: string): AppThunk => async (
 		};
 		const { data } = await axios.get<OrderDetails>(`/api/orders/${id}`, config);
 		dispatch({
-			type: OrderDetailsActionTypes.ODRER_DETAILS_SUCCESS,
+			type: OrderDetailsActionTypes.ORDER_DETAILS_SUCCESS,
 			payload: data
 		});
 	} catch (error) {
 		dispatch({
-			type: OrderDetailsActionTypes.ODRER_DETAILS_FAILURE,
+			type: OrderDetailsActionTypes.ORDER_DETAILS_FAILURE,
 			payload: errorHandler(error)
 		});
 	}
@@ -86,7 +89,7 @@ export const payOrder = (
 	paymentResult: PaymentResult
 ): AppThunk => async (dispatch, getState) => {
 	try {
-		dispatch({ type: OrderPayActionTypes.ODRER_PAY_REQUEST });
+		dispatch({ type: OrderPayActionTypes.ORDER_PAY_REQUEST });
 		const { userInfo } = getState().userLogin;
 		const config = {
 			headers: {
@@ -96,11 +99,11 @@ export const payOrder = (
 		};
 		await axios.put(`/api/orders/${orderId}/pay`, paymentResult, config);
 		dispatch({
-			type: OrderPayActionTypes.ODRER_PAY_SUCCESS
+			type: OrderPayActionTypes.ORDER_PAY_SUCCESS
 		});
 	} catch (error) {
 		dispatch({
-			type: OrderPayActionTypes.ODRER_PAY_FAILURE,
+			type: OrderPayActionTypes.ORDER_PAY_FAILURE,
 			payload: errorHandler(error)
 		});
 	}
@@ -108,7 +111,7 @@ export const payOrder = (
 
 export const listMyOrders = (): AppThunk => async (dispatch, getState) => {
 	try {
-		dispatch({ type: OrderListMyActionTypes.ODRER_LIST_MY_REQUEST });
+		dispatch({ type: OrderListMyActionTypes.ORDER_LIST_MY_REQUEST });
 		const { userInfo } = getState().userLogin;
 		const config = {
 			headers: {
@@ -120,12 +123,59 @@ export const listMyOrders = (): AppThunk => async (dispatch, getState) => {
 			config
 		);
 		dispatch({
-			type: OrderListMyActionTypes.ODRER_LIST_MY_SUCCESS,
+			type: OrderListMyActionTypes.ORDER_LIST_MY_SUCCESS,
 			payload: data
 		});
 	} catch (error) {
 		dispatch({
-			type: OrderListMyActionTypes.ODRER_LIST_MY_FAILURE,
+			type: OrderListMyActionTypes.ORDER_LIST_MY_FAILURE,
+			payload: errorHandler(error)
+		});
+	}
+};
+
+export const listOrders = (): AppThunk => async (dispatch, getState) => {
+	try {
+		dispatch({ type: OrderListActionTypes.ORDER_LIST_REQUEST });
+		const { userInfo } = getState().userLogin;
+		const config = {
+			headers: {
+				Authorization: `Bearer ${userInfo?.token}`
+			}
+		};
+		const { data } = await axios.get<OrderList[]>(`/api/orders/`, config);
+		dispatch({
+			type: OrderListActionTypes.ORDER_LIST_SUCCESS,
+			payload: data
+		});
+	} catch (error) {
+		dispatch({
+			type: OrderListActionTypes.ORDER_LIST_FAILURE,
+			payload: errorHandler(error)
+		});
+	}
+};
+
+export const deliverOrder = (orderId: string): AppThunk => async (
+	dispatch,
+	getState
+) => {
+	try {
+		dispatch({ type: OrderDeliverActionTypes.ORDER_DELIVER_REQUEST });
+		const { userInfo } = getState().userLogin;
+		const config = {
+			headers: {
+				'Content-Type': 'Application/json',
+				Authorization: `Bearer ${userInfo?.token}`
+			}
+		};
+		await axios.put(`/api/orders/${orderId}/deliver`, {}, config);
+		dispatch({
+			type: OrderDeliverActionTypes.ORDER_DELIVER_SUCCESS
+		});
+	} catch (error) {
+		dispatch({
+			type: OrderDeliverActionTypes.ORDER_DELIVER_FAILURE,
 			payload: errorHandler(error)
 		});
 	}

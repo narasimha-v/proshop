@@ -5,22 +5,13 @@ import { LinkContainer } from 'react-router-bootstrap';
 import { RouteComponentProps } from 'react-router-dom';
 
 import { Message, Loader } from '../components';
-import { listProducts, deleteProduct } from '../actions';
+import { listProducts, deleteProduct, createProduct } from '../actions';
 import { AppDispatch } from '../store';
-import { ReduxState } from '../types';
+import { ReduxState, ProductCreateActionTypes } from '../types';
 
-interface MatchParams {
-	id: string;
-}
+interface ProductListProps extends RouteComponentProps {}
 
-interface ProductListProps extends RouteComponentProps<MatchParams> {}
-
-const ProductList = ({
-	history,
-	match: {
-		params: { id }
-	}
-}: ProductListProps) => {
+const ProductList = ({ history }: ProductListProps) => {
 	const dispatch = useDispatch<AppDispatch>();
 	const { loading, products, error } = useSelector(
 		(state: ReduxState) => state.productList
@@ -29,11 +20,20 @@ const ProductList = ({
 		(state: ReduxState) => state.productDelete
 	);
 	const { userInfo } = useSelector((state: ReduxState) => state.userLogin);
+	const {
+		success: successCreate,
+		product: createdProduct,
+		loading: loadingCreate,
+		error: errorCreate
+	} = useSelector((state: ReduxState) => state.productCreate);
 
 	useEffect(() => {
-		if (userInfo && userInfo.isAdmin) dispatch(listProducts());
-		else history.push('/login');
-	}, [dispatch, history, userInfo, success]);
+		dispatch({ type: ProductCreateActionTypes.PRODUCT_CREATE_RESET });
+		if (!userInfo?.isAdmin) history.push('/login');
+		if (successCreate && createdProduct) {
+			history.push(`/admin/product/${createdProduct._id}/edit`);
+		} else dispatch(listProducts());
+	}, [dispatch, history, userInfo, success, successCreate, createdProduct]);
 
 	const deleteHandler = (userId: string) => {
 		if (window.confirm('Are you sure')) {
@@ -42,14 +42,14 @@ const ProductList = ({
 	};
 
 	const createProductHandler = () => {
-		/**
-		 * Create Product
-		 */
+		dispatch(createProduct());
 	};
 
 	const ProductsListDisplay = () => {
-		if (loading || loadingDelete) return <Loader />;
+		if (loading || loadingDelete || loadingCreate) return <Loader />;
 		else if (error) return <Message variant='danger'>{error}</Message>;
+		else if (errorCreate)
+			return <Message variant='danger'>{errorCreate}</Message>;
 		else if (errorDelete)
 			return <Message variant='danger'>{errorDelete}</Message>;
 		else

@@ -110,7 +110,7 @@ export const updateOrderToPaid = asyncHandler(
 
 /**
  * @description Get logged in user orders
- * @route PUT /api/orders/myorders
+ * @route GET /api/orders/myorders
  * @access Private
  */
 export const getMyOrders = asyncHandler(async (req: Request, res: Response) => {
@@ -123,3 +123,41 @@ export const getMyOrders = asyncHandler(async (req: Request, res: Response) => {
 		throw new Error('Order not found');
 	}
 });
+
+/**
+ * @description Get all orders
+ * @route GET /api/orders
+ * @access Private/Admin
+ */
+export const getOrders = asyncHandler(async (req: Request, res: Response) => {
+	if (!req.user) throw new Error('User Not Found');
+	const orders = await Order.find({}).populate('user', 'id name');
+	if (orders) {
+		res.json(orders);
+	} else {
+		res.status(404);
+		throw new Error('Orders not found');
+	}
+});
+
+/**
+ * @description Update order to paid
+ * @route PUT /api/orders/:id/deliver
+ * @access Private/Admin
+ */
+export const updateOrderToDelivered = asyncHandler(
+	async (req: Request, res: Response) => {
+		const params = req.params as { id: string };
+
+		const order = await Order.findById(params.id);
+		if (order) {
+			order.isDelivered = true;
+			order.deliveredAt = Date.now();
+			const updatedOrder = order.save();
+			res.json(updatedOrder);
+		} else {
+			res.status(404);
+			throw new Error('Order not found');
+		}
+	}
+);
