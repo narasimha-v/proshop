@@ -10,7 +10,7 @@
 		"start": "ts-node backend/server.ts",
 		"data:import": "ts-node backend/seeder",
 		"data:destroy": "ts-node backend/seeder -d",
-		"heroku-postbuild":"NPM_CONFIG_PRODUCTION=false npm install --prefix frontend && npm run build --prefix frontend"
+		"heroku-postbuild":"tsc && NPM_CONFIG_PRODUCTION=false npm install --prefix frontend && npm run build --prefix frontend"
 	},
 	"dependencies": {
 		"bcrypt": "^5.0.0",
