@@ -53,3 +53,9 @@ h3 {
 		font-size: 2.5vw;
 	}
 }
+
+@media (max-width: 600px) {
+	.carousel-caption {
+		display: none;
+	}
+}
