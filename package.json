@@ -7,6 +7,7 @@
 	"license": "MIT",
 	"scripts": {
 		"dev": "ts-node-dev --respawn backend/server.ts",
+		"start": "ts-node backend/server.ts",
 		"data:import": "ts-node backend/seeder",
 		"data:destroy": "ts-node backend/seeder -d",
 		"heroku-postbuild":"NPM_CONFIG_PRODUCTION=false npm install --prefix frontend && npm run build --prefix frontend"
